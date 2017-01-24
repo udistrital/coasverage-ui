@@ -1,10 +1,5 @@
-<div class="jumbotron">
-  <h1>coasverageUiApp</h1>
-  <p class="lead">
-    coasverageUiApp
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">coasverageUiApp<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
-
-<div class="row marketing">
+<div ng-controller="CoverageListController as coverageList">
+  <div ng-repeat="coverage in coverageList.coverages"  class="alert alert-{{coverage.level}}" role="alert">
+    <strong>{{coverage.app_name}}</strong> {{coverage.code_coverage}}
+  </div>
 </div>
