@@ -1,5 +1,10 @@
 'use strict';
 
+var env = {};
+if (window) {
+  Object.assign(env, window.__env);
+}
+
 /**
  * @ngdoc overview
  * @name coasverageUiApp
@@ -19,6 +24,7 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
+  .constant('__env', env)
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -27,4 +33,13 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+  .factory('Coverages', ['$resource', '__env', function($resource, __env) {
+    return $resource(__env.apiBaseUrl + '/coverages', null,
+        {
+          'get': {
+            method: 'GET',
+            isArray: true
+          }
+        });
+  }]);

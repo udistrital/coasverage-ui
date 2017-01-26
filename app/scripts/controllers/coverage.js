@@ -8,17 +8,26 @@
  * Controller of the coasverageUiApp
  */
 angular.module('coasverageUiApp')
-  .controller('CoverageListController', function () {
+  .controller('CoverageListController', ['Coverages', function (Coverages) {
     var coverageList = this;
     coverageList.coverages = [];
-    coverageList.coverages.push({
-      level: "danger",
-      app_name: "app_2",
-      code_coverage: 10.13
+    Coverages.get(function(coverages) {
+      coverages.forEach(function(coverage) {
+        // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+        var codeCoverage = coverage.code_coverage;
+        // jscs:enable
+        var level = '';
+        if ( codeCoverage < 25) {
+          level = 'danger';
+        } else if ( codeCoverage >= 25 && codeCoverage < 50) {
+          level = 'warning';
+        } else if ( codeCoverage >= 50 && codeCoverage < 75) {
+          level = 'info';
+        } else if ( codeCoverage >= 75) {
+          level = 'success';
+        }
+        coverage.level = level;
+        coverageList.coverages.push(coverage);
+      });
     });
-    coverageList.coverages.push({
-      level: "info",
-      app_name: "app_1",
-      code_coverage: 80.12
-    });
-  });
+  }]);
